@@ -1,0 +1,48 @@
+class Hospital
+{
+String dept="";
+String doc_name;
+String nurse_name;
+Hospital(String department,String doctor_name,String nu_name)
+{
+    this.dept=department;
+    this.doc_name=doctor_name;
+    this.nurse_name=nu_name;
+}
+public void display()
+{
+System.out.println(dept+"\t"+doc_name+"\t"+nurse_name+"\n");
+}
+}
+
+
+class Dentist extends Hospital
+{
+String dentist_name;
+String education;
+int patient_number;
+Dentist(String den_name,String edu,String department,String doctor_name,String nu_name,int pa_no)
+{
+super(department, doctor_name, nu_name);
+this.dentist_name=den_name;
+this.education=edu;
+this.patient_number=pa_no;
+}
+public void display()
+{
+super.display();
+System.out.println(dentist_name+"\t"+education+"\t"+patient_number);
+} 
+}
+
+
+class Hospital2
+{
+public static void main(String args[])
+{
+    Hospital h=new Hospital("cardio","abc","pqr");
+    h.display();
+    Dentist d=new Dentist("john","BAMS","cardilogy","ygyggiy","ygyggy",67);
+    d.display();
+}
+}
