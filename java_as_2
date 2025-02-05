@@ -1,0 +1,129 @@
+import java.util.*;
+class Hospital
+{
+public String dept="";
+public String location="";
+Hospital(String department,String loc)
+{
+    this.dept=department;
+    this.location=loc;
+}
+public void display()
+{
+System.out.println("Department:"+ dept+"\t"+"Location:"+location+"\n");
+}
+}
+
+
+class Doctor extends Hospital
+{
+String doc_name;
+String education;
+Doctor(String doc_nam,String edu,String department,String loc)
+{
+super(department,loc);
+this.doc_name=doc_nam;
+this.education=edu;
+}
+public void display()
+{
+super.display();
+System.out.println("Doctor name:"+"\t"+doc_name+"\t"+"Education"+education+"\t");
+} 
+}
+
+
+class Dentist  extends Doctor
+{
+String den_name;
+int experince;
+//(String name,int exp,String department,String loc,String doc_name,String edu)
+//super(doc_name,edu,department,loc);
+Dentist(String name,int exp,String department,String loc,String doc_name,String edu)
+{
+super(doc_name,edu,department,loc);
+this.den_name=name;
+this.experince=exp;
+}
+public void display()
+{
+super.display();
+System.out.println("Dentist name:"+"\t"+den_name+"\t"+"Experince"+experince+"\t");
+} 
+}
+
+
+class Salary extends Dentist
+{
+int month_sal;
+final int annual_sal=1;
+
+Salary(int mon_sal,String department,String loc,String doc_name,String edu,String den_name,int exp)
+{
+super(department,loc,edu,doc_name,den_name,exp)
+this.month_sal=mon_sal;
+}
+void accept()
+{
+Scanner s=new Scanner(System.in);
+month_sal=s.nextInt();
+annual_sal=12*month_sal;
+System.out.println("Monthly salary:"+month_sal+"\t"+"Annual Salary:"+annual_sal);
+}
+}
+
+class Hospital_2
+{
+public static void main(String args[])
+{ 
+    String dep,lo,do_name,ed,n,ex,m_sal;
+    Scanner s=new Scanner(System.in);
+    int ch,choice=0;
+    do
+    {
+    System.out.println("1.Hospital_information\t2.Doctor\t3.Dentist\t4.Dentist_salary");
+    ch=s.nextInt();
+    s.nextLine();
+    switch(ch)
+    {
+    case 1:System.out.println("Enter Department:");
+    	   dep=s.nextline();
+    	   System.out.println("Enter Location:");
+    	   lo=s.nextline();
+    	   Hospital h=new Hospital(dep,lo);
+    	   h.display();
+    	   break;
+    case 2:System.out.println("Enter Doctor name:");
+    	   do_name=s.nextline();
+    	   System.out.println("Enter Education:");
+    	   ed=s.nextline();
+    	   Doctor d=new Doctor(do_name,ed,dep,lo);
+    	   d.display();
+    	   break;
+    case 3:System.out.println("Enter Dentist name:");
+    	   n=s.nextline();
+    	   System.out.println("Enter Experince:");
+    	   ex=s.nextInt();
+    	   s.nextLine();
+    	   Dentist d1=new Dentist(n,ex,dep,lo,do_name,ed);
+    	   d1.display();
+    	   break;
+    case 4:
+          System.out.println("Enter Dentist name:");
+    	  m_sal=s.nextline();
+    	  Salary s1=new Salay(m_sal,dep,lo,do_name,ed,n,ex);
+   	  s1.accept();
+   	  break;
+    	  
+    }
+    
+    
+    System.out.println("1 to continue");
+    choice=s.nextInt();
+    }while(choice==0);
+    //Hospital h=new Hospital("cardio","abc","pqr");
+    //h.display();
+    //Dentist d=new Dentist("john","BAMS","cardilogy","ygyggiy","ygyggy",67);
+    //d.display();
+}
+}
