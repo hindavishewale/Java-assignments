@@ -120,20 +120,45 @@ public class UniversityMgmt
                     student.display();
                     break;
                 case 4: 
-                    System.out.println("Enter number of lecture out of 30 attnded of subject 1:");
+                    System.out.println("Enter number of lecture out of 30 attended of subject 1:");
                     s1=s.nextInt();
+                    while(s1<0||s1>30)
+                    {
+                    System.out.println("Invalid input\nRenter number of lectures attended:");
+                    s1=s.nextInt();
+                    }
                     s.nextLine();
-                    System.out.println("Enter number of lecture out of 30 attnded of subject 2:");
+                    System.out.println("Enter number of lecture out of 30 attended of subject 2:");
                     s2=s.nextInt();
+                               while(s2<0||s2>30)
+                    {
+                    System.out.println("Invalid input\nRenter number of lectures attended:");
+                    s2=s.nextInt();
+                    }
                     s.nextLine();
-                    System.out.println("Enter number of lecture out of 30 attnded of subject 3:");
+                    System.out.println("Enter number of lecture out of 30 attended of subject 3:");
                     s3=s.nextInt();
+                               while(s3<0||s3>30)
+                    {
+                    System.out.println("Invalid input\nRenter number of lectures attended:");
+                    s3=s.nextInt();
+                    }
                     s.nextLine();
-                    System.out.println("Enter number of lecture out of 30 attnded of subject 4:");
+                    System.out.println("Enter number of lecture out of 30 attended of subject 4:");
                     s4=s.nextInt();
+                               while(s4<0||s4>30)
+                    {
+                    System.out.println("Invalid input\nRenter number of lectures attended:");
+                    s4=s.nextInt();
+                    }
                     s.nextLine();
-                    System.out.println("Enter number of lecture out of 30 attnded of subject 5:");
+                    System.out.println("Enter number of lecture out of 30 attended of subject 5:");
                     s5=s.nextInt();
+                               while(s5<0||s5>30)
+                    {
+                    System.out.println("Invalid input\nRenter number of lectures attended:");
+                    s5=s.nextInt();
+                    }
                     s.nextLine();
                     Attendence attendence=new Attendence(name,location,p_name,education,s_name,classs,s1,s2,s3,s4,s5);
                     attendence.attendence_display();
