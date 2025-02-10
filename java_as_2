@@ -4,7 +4,7 @@ class University
 {
     protected String name;
     protected String location;
-
+    final String pincode="423601";
     public University(String nam,String loc)
     {
         this.name=nam;
@@ -12,7 +12,7 @@ class University
     }
     public void display()
     {
-        System.out.println("Name of university:"+name+"\t"+"Location of university:"+location+"\n");
+        System.out.println("Name of university:"+name+"\t"+"Location of university:"+location+"\t"+"pincode :"+pincode+"\n");
     }
 }
 
@@ -27,7 +27,7 @@ class Professor extends University
         this.p_name=na;
         this.education=edu;
     }
-    public void display()
+    public void display()//overridng display function of university class
     {
         super.display();
         System.out.println("Name of professor:"+p_name+"\t"+"Education of professor:"+education +"\n");
@@ -140,11 +140,9 @@ public class UniversityMgmt
                     break;
                 
             }
-            System.out.print("\nEnter 1 to continue, any other number to exit: ");
+            System.out.print("Enter 1 to continue, any other number to exit: ");
             choice=s.nextInt();
             s.nextLine();
         }while(choice==1);
     }
 }
-
-
