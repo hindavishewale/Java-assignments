@@ -16,6 +16,7 @@ class customer implements person,transaction,loan
     public String name;
     public String account_number;
     public int balance; 
+    int loan_amount=0;
     Scanner s=new Scanner(System.in); 
     public customer(){} 
     public void getinfo()
@@ -30,7 +31,7 @@ class customer implements person,transaction,loan
     }
     public void display()
     {
-     System.out.println("NAME:"+name+"\n"+"ACCOUNT NUMBER:"+account_number+"\n"+"BALANCE:"+balance+"\n");
+     System.out.println("NAME:"+name+"\n"+"ACCOUNT NUMBER:"+account_number+"\n"+"BALANCE:"+balance+"\n" +"LOAN:" + loan_amount+ "\n");
     }
 
     public void deposit()
@@ -55,7 +56,6 @@ class customer implements person,transaction,loan
     }
     public void takeloan()
     {
-     int loan_amount;
      System.out.println("Enter loan amount:");
      loan_amount=s.nextInt();
      s.nextLine();
