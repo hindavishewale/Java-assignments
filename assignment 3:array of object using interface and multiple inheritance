@@ -17,6 +17,8 @@ class customer implements person,transaction,loan
     public String account_number;
     public int balance; 
     int loan_amount=0;
+    double interestRate=5.0;
+    double totalPayable=0;
     Scanner s=new Scanner(System.in); 
     public customer(){} 
     public void getinfo()
@@ -47,20 +49,39 @@ class customer implements person,transaction,loan
 
     }
     public void withdrawal()
-    {
+    {   int flag=0;
         int withdrawal_amount;
         System.out.println("Enter amount to withdrawal");
         withdrawal_amount=s.nextInt();
         s.nextLine();
+        if(withdrawal_amount<=balance)
+        {
         balance=balance-withdrawal_amount;
         System.out.println("\nBalance:"+balance);
+        }
+        else
+        {
+            System.out.println("Not sufficient balance!!!");
+        }
     }
     public void takeloan()
     {
      System.out.println("Enter loan amount:");
      loan_amount=s.nextInt();
      s.nextLine();
-     System.out.println("\nYou have taken loan :"+loan_amount+"\n");
+     if(loan_amount>0)
+     {
+        double interest=(loan_amount*interestRate)/100;
+        totalPayable=loan_amount+interest;
+        System.out.println("\nYou have taken loan :"+loan_amount+"\n");
+        System.out.println("Interest (" + interestRate + "%): " + interest);
+        System.out.println("Total Payable Amount: " + totalPayable);
+     }
+     else
+     {
+        System.out.println("\nInvalid loan amount!");
+     }
+    
     }
 }
 
@@ -86,7 +107,7 @@ public class bank
             case 1:  
             for(int i=0;i<n;i++)
             {
-                System.out.println("Enter detail of cutomer:"+(i+1)+":"+"\n");
+                System.out.println("\nEnter detail of cutomer:"+(i+1)+":");
                 c[i]=new customer();
                 c[i].getinfo();
             }
@@ -124,7 +145,7 @@ public class bank
             }
             break;
             case 4:
-            System.out.println("Enter account number to withdrawal amount:");
+            System.out.println("Enter account number to take loan :");
             key=s.nextLine();   
             for(int i=0;i<n;i++)
             {
