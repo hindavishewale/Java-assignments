@@ -1,13 +1,33 @@
 import java.util.*;
- interface person{
+
+interface bankinfo
+{
+final String bank_name="WELCOME TO BANK!!!!";
+public void display();
+}
+
+interface bankname
+{
+String n="SANJIVANI BANK";
+void display();
+}
+
+
+interface person extends bankinfo,bankname
+ {
     public void getinfo();
     public void display();
 }
- interface transaction {
+
+interface transaction
+  {
    public void deposit();
    public void withdrawal();
 }
- interface loan {
+
+interface loan 
+ {
+ String l="WELCOME TO LOAN SECTION";
     void takeloan();
 }
 
@@ -17,6 +37,8 @@ class customer implements person,transaction,loan
     public String account_number;
     public int balance; 
     int loan_amount=0;
+    double interestRate=5.0;
+    double totalPayable=0;
     Scanner s=new Scanner(System.in); 
     public customer(){} 
     public void getinfo()
@@ -31,7 +53,8 @@ class customer implements person,transaction,loan
     }
     public void display()
     {
-     System.out.println("NAME:"+name+"\n"+"ACCOUNT NUMBER:"+account_number+"\n"+"BALANCE:"+balance+"\n" +"LOAN:" + loan_amount+ "\n");
+     //System.out.println("NAME:"+name+"\n"+"ACCOUNT NUMBER:"+account_number+"\n"+"BALANCE:"+balance+"\n" +"LOAN:" + loan_amount+ "\n");
+     System.out.println(name+"\t"+account_number+"\t"+balance+"\t"+loan_amount+"\n");
     }
 
     public void deposit()
@@ -46,20 +69,41 @@ class customer implements person,transaction,loan
 
     }
     public void withdrawal()
-    {
+    {   int flag_w=0;
         int withdrawal_amount;
         System.out.println("Enter amount to withdrawal");
         withdrawal_amount=s.nextInt();
         s.nextLine();
+        if(withdrawal_amount<=balance)
+        {
+        flag_w=1;
         balance=balance-withdrawal_amount;
         System.out.println("\nBalance:"+balance);
+        }
+        if(flag_w==0)
+        {
+            System.out.println("Not sufficient balance!!!");
+        }
     }
     public void takeloan()
     {
+     System.out.println(l);
      System.out.println("Enter loan amount:");
      loan_amount=s.nextInt();
      s.nextLine();
-     System.out.println("\nYou have taken loan :"+loan_amount+"\n");
+     if(loan_amount>0)
+     {
+        double interest=(loan_amount*interestRate)/100;
+        totalPayable=loan_amount+interest;
+        System.out.println("\nYou have taken loan :"+loan_amount+"\n");
+        System.out.println("Interest (" + interestRate + "%): " + interest);
+        System.out.println("Total Payable Amount: " + totalPayable);
+     }
+     else
+     {
+        System.out.println("\nInvalid loan amount!");
+     }
+    
     }
 }
 
@@ -68,21 +112,86 @@ public class bank
    
     public static void main(String[] args)
      {
-        int ch,choice;
-        Scanner s=new Scanner(System.in); 
-        customer c=new customer();
+        int ch,choice,n;
+        String key;
+        Scanner s=new Scanner(System.in);
+        System.out.println("Enter number of cutomer:");
+        n=s.nextInt();
+        s.nextLine();
+        customer c[]=new customer[n];
         do 
         {
-        System.out.println("1.BASIC BANK INFORMATION\n2.DEPOSIT\n3.WITHDRAWL\n4.LOAN\n5.display\n");
+        System.out.println("1.BASIC BANK INFORMATION\n2.DEPOSIT\n3.WITHDRAWL\n4.LOAN\n5.DISPLAY\n");
         ch=s.nextInt();
         s.nextLine();
         switch(ch)
         {
-            case 1: c.getinfo(); break;
-            case 2: c.deposit();break;
-            case 3: c.withdrawal();break;
-            case 4: c.takeloan();break;
-            case 5:c.display();break;
+            case 1:  
+            for(int i=0;i<n;i++)
+            {
+                System.out.println("\nEnter detail of cutomer:"+(i+1)+":");
+                c[i]=new customer();
+                c[i].getinfo();
+            }
+            break;
+            case 2: 
+            System.out.println("Enter account number to deposit amount:");
+            key=s.nextLine();
+            int flag1=0;
+            for(int i=0;i<n;i++)
+            {
+                if (key.equals(c[i].account_number))
+                {
+                    flag1=1;
+                    c[i].deposit();
+                }
+            }
+            if(flag1==0)
+            {
+                System.out.println("Account number does not exist!!");
+            }
+            break;
+            case 3:
+            System.out.println("Enter account number to withdrawal amount:");
+            key=s.nextLine();
+            int flag2=0;
+            for(int i=0;i<n;i++)
+            {
+                if (key.equals(c[i].account_number))
+                {
+                   flag2=1;
+                    c[i].withdrawal();
+                }
+            }
+            if(flag2==0)
+            {
+                System.out.println("Account number does not exist!!");
+            }
+            break;
+            case 4:
+            System.out.println("Enter account number to take loan :");
+            key=s.nextLine();   
+            int flag3=0;
+            for(int i=0;i<n;i++)
+            {
+                if (key.equals(c[i].account_number))
+                {
+                    flag3=1;
+                    c[i].takeloan();
+                }
+            }
+            if(flag3==0)
+            {
+                System.out.println("Account number does not exist!!");
+            }
+            break;
+            case 5:
+            System.out.println("NAME"+"\t"+"AC_NO"+"\t"+"BALANCE"+"\t"+"LOAN"+"\n");
+            for(int i=0;i<n;i++)
+            {
+                c[i].display();
+            }
+           break;
         }
 
         System.out.println("1 to contiune:");
