@@ -49,17 +49,18 @@ class customer implements person,transaction,loan
 
     }
     public void withdrawal()
-    {   int flag=0;
+    {   int flag_w=0;
         int withdrawal_amount;
         System.out.println("Enter amount to withdrawal");
         withdrawal_amount=s.nextInt();
         s.nextLine();
         if(withdrawal_amount<=balance)
         {
+        flag_w=1;
         balance=balance-withdrawal_amount;
         System.out.println("\nBalance:"+balance);
         }
-        else
+        if(flag_w==0)
         {
             System.out.println("Not sufficient balance!!!");
         }
@@ -90,7 +91,7 @@ public class bank
    
     public static void main(String[] args)
      {
-        int ch,choice,n,flag=0;
+        int ch,choice,n;
         String key;
         Scanner s=new Scanner(System.in); 
         System.out.println("Enter number of cutomer:");
@@ -99,7 +100,7 @@ public class bank
         customer c[]=new customer[n];
         do 
         {
-        System.out.println("1.BASIC BANK INFORMATION\n2.DEPOSIT\n3.WITHDRAWL\n4.LOAN\n5.display\n");
+        System.out.println("1.BASIC BANK INFORMATION\n2.DEPOSIT\n3.WITHDRAWL\n4.LOAN\n5.DISPLAY\n");
         ch=s.nextInt();
         s.nextLine();
         switch(ch)
@@ -115,15 +116,16 @@ public class bank
             case 2: 
             System.out.println("Enter account number to deposit amount:");
             key=s.nextLine();
+            int flag1=0;
             for(int i=0;i<n;i++)
             {
                 if (key.equals(c[i].account_number))
                 {
-                    flag=1;
+                    flag1=1;
                     c[i].deposit();
                 }
             }
-            if(flag==0)
+            if(flag1==0)
             {
                 System.out.println("Account number does not exist!!");
             }
@@ -131,15 +133,16 @@ public class bank
             case 3:
             System.out.println("Enter account number to withdrawal amount:");
             key=s.nextLine();
+            int flag2=0;
             for(int i=0;i<n;i++)
             {
                 if (key.equals(c[i].account_number))
                 {
-                   flag=1;
+                   flag2=1;
                     c[i].withdrawal();
                 }
             }
-            if(flag==0)
+            if(flag2==0)
             {
                 System.out.println("Account number does not exist!!");
             }
@@ -147,21 +150,22 @@ public class bank
             case 4:
             System.out.println("Enter account number to take loan :");
             key=s.nextLine();   
+            int flag3=0;
             for(int i=0;i<n;i++)
             {
                 if (key.equals(c[i].account_number))
                 {
-                    flag=1;
+                    flag3=1;
                     c[i].takeloan();
                 }
             }
-            if(flag==0)
+            if(flag3==0)
             {
                 System.out.println("Account number does not exist!!");
             }
             break;
             case 5:
-            System.out.println("NAME"+"\t"+"ACCOUNT NUMBER"+"\t"+"BALANCE"+"\t"+"LOAN"+"\n");
+            System.out.println("NAME"+"\t"+"AC_NO"+"\t"+"BALANCE"+"\t"+"LOAN"+"\n");
             for(int i=0;i<n;i++)
             {
                 c[i].display();
