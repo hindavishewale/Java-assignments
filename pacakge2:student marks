@@ -1,0 +1,35 @@
+package StudentMarks;
+
+import StudentInfo.student; 
+
+public class Marks extends student {
+    private int[] submarks;
+
+    
+    public Marks(String name,String id,int []submarks)
+    {
+    super(name,id);
+    this.submarks=submarks;
+    }
+
+    // Method to calculate total marks
+    public int getTotalMarks() {
+        int total = 0;
+        for (int mark : submarks) {
+            total += mark;
+        }
+        return total;
+    }
+
+    // Method to calculate average marks
+    public double getAverageMarks() {
+        return (double) getTotalMarks() / submarks.length;
+    }
+
+    // Method to show marks details
+    public void showMarksDetails() {
+        showinfo(); // Call method from Student class
+        System.out.println("Total Marks: " + getTotalMarks());
+        System.out.println("Average Marks: " + getAverageMarks());
+    }
+}
