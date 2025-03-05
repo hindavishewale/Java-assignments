@@ -1,0 +1,19 @@
+package StudentInfo;
+
+public class student
+{
+public String name;
+protected String id;
+public student(String n,String id)
+{
+this.name=n;
+this.id=id;
+}
+
+public void showinfo()
+{
+ System.out.println("Student Name: " + name);
+ System.out.println("Student ID: " + id);
+}
+
+}
