@@ -1,0 +1,70 @@
+import java.util.*;
+import java.io.*;
+
+class BankOperation
+{
+public String ac_no;
+public String name;
+public int Total_amount=0;
+public int d_amount,w_amount;
+
+
+public void getinfo(String a,String n,int t)
+{
+ ac_no=a;
+ name=n;
+ Total_amount=t;
+}
+
+
+public void deposit(int d_amount)
+{
+Total_amount+=d_amount;
+}
+
+
+public void withdrawal(int w_amount)
+{
+Total_amount-=w_amount;
+}
+
+}
+
+public class Bank
+{
+public static void main(String[] args)
+{
+
+  Scanner s=new Scanner(System.in);
+  BankOperation b=new BankOperation();
+  System.out.println("1.Bank Information\n2.Deposit\n3.Withdrawal\n");
+  int ch=s.nextInt();
+  s.nextLine();
+  switch(ch)
+  {
+  case 1:System.out.println("enter ac_no:");
+        String ac_no=s.nextLine();
+        System.out.println("enter name:");
+        String name=s.nextLine();
+        System.out.println("enter amount:");
+        int amount=s.nextInt();
+        s.nextLine();
+  	b.getinfo(ac_no,name,amount);
+  	break;
+  
+  case 2:System.out.println("enter deposit amount:");
+      int d_amount=s.nextInt();
+      s.nextLine();
+      b.deposit(d_amount);
+      break;
+  
+   case 3:System.out.println("enter withdrawal amount:");
+      int w_amount=s.nextInt();
+      s.nextLine();
+      b.withdrawal(w_amount);
+      break;
+  
+  }
+  
+}
+}
