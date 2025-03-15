@@ -1,76 +1,108 @@
 import java.lang.*;
 import java.util.*;
 
-
-class InvalidAgeException extends Exception
+// User-defined exceptions
+class InvalidAgeException extends Exception 
 {
- public InvalidAgeException(String s)
- {
-     super(s);
- }
+    public InvalidAgeException(String s) 
+    {
+        super(s);
+    }
 }
 
-
-public class Voter
-{
-   
-  
-    int voterage;
-    String votername=null;
-    public void voterReg(int age,String name)throws InvalidAgeException
-    {   
-        if(age<18)
-        {
-         throw new InvalidAgeException("Your age is less than 18/you are not eligible for voter registration...");
-        }
-        else
-        {
-            voterage=age;
-            votername=name;
-            System.out.println("voter registration successfully done ....");
-        }
-    } 
-  
-    public void display() 
+class NameFormatException extends Exception
+ {
+    public NameFormatException(String s) 
     {
-        System.out.println("\nVoter name:"+votername);
-        System.out.println("\nvoter age:"+voterage);
+        super(s);
+    }
+}
+
+public class Voter 
+{
+
+    int voterAge;
+    String voterName = null;
+
+    public void voterReg(int age, String name) throws InvalidAgeException {
+        if (age < 18) 
+        {
+            throw new InvalidAgeException("Your age is less than 18/you are not eligible for voter registration...");
+        }
+
+        voterAge = age;
+        voterName = name;
+        System.out.println("voter registration successfully done ....");
     }
 
-
-
-    public static void main(String [] args) throws InvalidAgeException,InputMismatchException
+    public void display() 
     {
-        Scanner s=new Scanner(System.in);
+        System.out.println("\nVoter name:" + voterName);
+        System.out.println("\nvoter age:" + voterAge);
+    }
 
-        Voter v=new Voter();
-        int ch;
-        do
-        {
-        System.out.println("1.voter registration\n2.voter info display\n3.exit");
-        ch=s.nextInt();
-        s.nextLine();
+    public static void main(String[] args) throws InvalidAgeException 
+    {
+        Scanner s = new Scanner(System.in);
 
-        switch(ch)
-        {
-            case 1: 
-            System.out.println("enter name of voter:");
-            String n=s.nextLine();
-            System.out.println("enter age:");
-            int a=s.nextInt();//directly throws exception if not int
-            s.nextLine();
-            v.voterReg(a,n);break;
-           // catch(InvalidAgeException a)
-            //{
-            //    System.out.println("Exception:"+a.getMessage());
-           // }
-            case 2:
-                v.display();
-            break;
-            case 3:System.out.println("exiting......" );break;
-        }
+        Voter v = new Voter();
+        int ch=0;
 
-       }while(ch!=3);
+        do {
+            System.out.println("1.voter registration\n2.voter info display\n3.exit");
 
+            try {
+                ch = s.nextInt();
+                s.nextLine(); // Consume newline character
+
+                switch (ch) 
+                {
+                    case 1:
+                        System.out.println("enter name of voter:");
+                        String n = s.nextLine();
+                        System.out.println("enter age:");
+                        int a = s.nextInt(); // Directly throws InputMismatchException if not int
+                        s.nextLine();
+
+                        v.voterReg(a, n);
+                        break;
+
+                    case 2:
+                        try 
+                        {
+                            v.display();
+                        } catch (NullPointerException e) 
+                        {
+                            System.out.println("Exception:" + e.getMessage());
+                        }
+                        break;
+
+                    case 3:
+                        System.out.println("exiting......");
+                        break;
+
+                    default:
+                        throw new IllegalArgumentException();
+                }
+
+            }
+             catch (InputMismatchException e) 
+            {
+                s.nextLine(); // Clear invalid input
+                ch = 0; // Reset choice to prevent infinite loop
+            } catch (InvalidAgeException e) 
+            {
+                System.out.println("Exception:" + e.getMessage());
+            } catch (Exception e) 
+            {
+                System.out.println("Exception:" + e);
+            }
+            finally
+            {
+                System.out.println("operation completed....\n");
+            }
+        } while (ch != 3);
+
+        s.close(); // Close the scanner
     }
 }
