@@ -1,5 +1,10 @@
 import java.util.*;
-import java.io.*;
+
+class InsufficientBalanceException extends Exception {
+    public InsufficientBalanceException(String message) {
+        super(message);
+    }
+}
 
 class BankOperation
 {
@@ -23,22 +28,35 @@ Total_amount+=d_amount;
 }
 
 
-public void withdrawal(int w_amount)
+public void withdrawal(int w_amount) throws InsufficientBalanceException
 {
-Total_amount-=w_amount;
+    if (w_amount > Total_amount)
+    {
+        throw new InsufficientBalanceException("Insufficient balance! Current Balance: " + Total_amount);
+    }
+    Total_amount -= w_amount;
+}
+
+
+public void display()
+{
+System.out.println("account no:"+ac_no+"\n"+"name:"+name+"\n"+"amount:"+Total_amount+"\n\n");
 }
 
 }
 
-public class Bank
+public class bank
 {
 public static void main(String[] args)
 {
 
   Scanner s=new Scanner(System.in);
+  int ch;
   BankOperation b=new BankOperation();
-  System.out.println("1.Bank Information\n2.Deposit\n3.Withdrawal\n");
-  int ch=s.nextInt();
+  do
+  {
+  System.out.println("1.Bank Information\n2.Deposit\n3.Withdrawal\n4.Display\n");
+   ch=s.nextInt();
   s.nextLine();
   switch(ch)
   {
@@ -60,11 +78,21 @@ public static void main(String[] args)
   
    case 3:System.out.println("enter withdrawal amount:");
       int w_amount=s.nextInt();
-      s.nextLine();
-      b.withdrawal(w_amount);
+      try 
+      {
+        b.withdrawal(w_amount);
+      } catch (InsufficientBalanceException e) 
+      {
+        System.out.println(e.getMessage());
+      }
       break;
-  
+    
+    case 4:b.display();
+          break;
+       
+    case 5:System.out.println("Exiting program!!!");
+      break;
   }
-  
+  }while(ch!=5);
 }
 }
