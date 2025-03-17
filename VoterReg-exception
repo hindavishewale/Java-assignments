@@ -1,10 +1,20 @@
 import java.util.*;
 
 // User-defined exceptions
-class InvalidAgeException extends Exception {
-    public InvalidAgeException(String s) {
+class InvalidAgeException extends Exception 
+{
+    public InvalidAgeException(String s) 
+    {
         super(s);
     }
+}
+
+class InvalidMobile extends Exception
+{
+ 	public 	InvalidMobile(String m)
+ 	{
+ 	super(m);
+ 	}
 }
 
 
@@ -12,25 +22,33 @@ public class Voter {
 
     int voterAge;
     String voterName = null;
+    String mob_no=null;
 
-    public void voterReg(int age, String name) throws InvalidAgeException
+    public void voterReg(int age, String name,String mn) throws InvalidAgeException,InvalidMobile
     {
         if (age < 18) {
             throw new InvalidAgeException("Your age is less than 18. You are not eligible for voter     registration.");
         }
-       
-
+        
         voterAge = age;
         voterName = name;
+        mob_no=mn;
+        
+        if(mob_no.length()!=10)
+        {
+         throw new InvalidMobile("Mobile number is invalid!!!1");
+        }
+        
         System.out.println("Voter registration successfully done.");
     }
 
     public void display() {
         System.out.println("\nVoter name: " + voterName);
         System.out.println("Voter age: " + voterAge);
+        System.out.println("Voter mobile number:"+mob_no);
     }
 
-    public static void main(String[] args) throws Exception {  
+    public static void main(String[] args) throws Exception,InvalidMobile,InvalidAgeException{  
         Scanner s = new Scanner(System.in);
 
         Voter v = new Voter();
@@ -41,7 +59,8 @@ public class Voter {
 
             ch = s.nextInt();
             s.nextLine(); 
-
+            try
+            {
             switch (ch) {
                 case 1:
                     System.out.println("Enter name of voter:");
@@ -49,8 +68,11 @@ public class Voter {
                     System.out.println("Enter age:");
                     int a = s.nextInt();
                     s.nextLine();
+                    System.out.println("Enter mob no:");
+                    String m=s.nextLine();
+                   v.voterReg(a, n,m); 
 
-                    v.voterReg(a, n); 
+                
                     break;
 
                 case 2:
@@ -63,9 +85,16 @@ public class Voter {
 
                 default:
                     throw new IllegalArgumentException("Invalid choice!");
+            }  
             }
-
+            catch(InvalidMobile i)
+                     {
+                     System.out.println("Exception:"+i.getMessage());
+                     }
+            finally
+            {
             System.out.println("Operation completed.\n");
+            }
 
         } while (ch != 3);
 
