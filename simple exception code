@@ -1,0 +1,62 @@
+import java.util.*; // Importing Scanner for user input
+
+class InvalidMob extends Exception {
+    public InvalidMob(String m) {
+        super(m);
+    }
+}
+
+class invalidamount extends Exception { // ⚠️ Class name should start with an uppercase letter (InvalidAmount)
+    public invalidamount(String a) {
+        super(a);
+    }
+}
+
+public class exceptioncode {
+    String name;
+    int amount;
+    String mob;
+
+    public exceptioncode(String n, String m, int a) throws InvalidMob { 
+        if (m.length() != 10) { // Checking if the mobile number is exactly 10 digits
+            throw new InvalidMob("invalid mobile number"); // ⚠️ Exception thrown if mobile number is invalid
+        }
+        else {
+            name = n;
+            amount = a;
+            mob = m;
+        }
+    }
+
+    public void display() {
+        System.out.println("name:" + name + "\n" + "amount:" + amount + "mob" + mob); 
+        // ⚠️ Missing space between amount and mob in output
+    }
+
+    public static void main(String args[]) throws Exception, InvalidMob, invalidamount {
+        Scanner s = new Scanner(System.in);
+        String n;
+        System.out.println("Enter name:");
+        n = s.nextLine();
+        
+        int a = 0; // ⚠️ Variable a must be declared outside try block to be accessible later
+        
+        try {
+            System.out.println("Enter amount:");
+            a = s.nextInt();
+            if (a < 0) {
+                throw new invalidamount("amount cant be negative!!!"); // ⚠️ InvalidAmount should start with uppercase
+            }
+            s.nextLine(); // Consume leftover newline character
+        } catch (invalidamount ex) { // ⚠️ Exception variable name should not match class name
+            System.out.println(ex.getMessage());
+            return; // ⚠️ Return statement needed to avoid creating the object if an exception occurs
+        }
+
+        System.out.println("Enter mob");
+        String m = s.nextLine();
+        
+        exceptioncode ex = new exceptioncode(n, m, a); // ⚠️ If exception occurs, 'a' may be undefined if try block fails
+        ex.display();
+    }
+}
