@@ -14,6 +14,13 @@ class BankCustomer extends Thread {
     public void run() {
         System.out.println("[Customer Thread] Customer logged in.");
         waitForApproval();
+        unsynchronized();
+        int priority = getPriority(); 
+        System.out.println("Priority of synchronized method: " + priority);
+    }
+
+    public void unsynchronized() {
+        System.out.println("Unsynchronized method!!");
     }
 }
 
@@ -44,7 +51,7 @@ public class BankingApp {
         int choice;
 
         do {
-            System.out.println("1. Start Customer Thread (Login + Wait)");
+            System.out.println("\n1. Start Customer Thread (Login + Wait)");
             System.out.println("2. Start Manager Thread (Approve)");
             System.out.println("3. Exit");
             System.out.print("Enter your choice: ");
@@ -54,7 +61,10 @@ public class BankingApp {
                 case 1:
                     if (customer == null || !customer.isAlive()) {
                         customer = new BankCustomer();
+                        customer.setName("Information of customer");
+                        customer.setPriority(Thread.NORM_PRIORITY + 1); // Optional: set priority
                         customer.start(); // Start customer thread
+                        System.out.println("Customer Thread Name: " + customer.getName());
                     } else {
                         System.out.println("[Main] Customer thread already running.");
                     }
@@ -63,7 +73,11 @@ public class BankingApp {
                 case 2:
                     if (customer != null) {
                         manager = new BankManager(customer);
-                        new Thread(manager).start(); // Start manager thread using Runnable
+                        Thread managerThread = new Thread(manager);
+                        managerThread.setName("ManagerThread");
+                        managerThread.setPriority(Thread.MAX_PRIORITY); // ✅ Proper way
+                        managerThread.start(); // Start manager thread using Runnable
+                        System.out.println("Manager Thread priority set to: " + managerThread.getPriority());
                     } else {
                         System.out.println("[Main] Start customer thread first!");
                     }
