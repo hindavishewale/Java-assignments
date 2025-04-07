@@ -17,7 +17,7 @@ class BankCustomer extends Thread {
     }
 }
 
-class BankManager extends Thread {
+class BankManager implements Runnable {
     BankCustomer customer;
 
     BankManager(BankCustomer customer) {
@@ -44,7 +44,6 @@ public class BankingApp {
         int choice;
 
         do {
-            System.out.println("\n====== BANK MENU ======");
             System.out.println("1. Start Customer Thread (Login + Wait)");
             System.out.println("2. Start Manager Thread (Approve)");
             System.out.println("3. Exit");
@@ -64,7 +63,7 @@ public class BankingApp {
                 case 2:
                     if (customer != null) {
                         manager = new BankManager(customer);
-                        manager.start(); // Start manager thread
+                        new Thread(manager).start(); // Start manager thread using Runnable
                     } else {
                         System.out.println("[Main] Start customer thread first!");
                     }
