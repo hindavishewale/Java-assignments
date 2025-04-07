@@ -1,0 +1,85 @@
+import java.util.Scanner;
+
+class BankCustomer extends Thread {
+    public synchronized void waitForApproval() {
+        try {
+            System.out.println("[Customer Thread] Customer is waiting for transaction approval...");
+            wait(); // Waits until notify() is called
+            System.out.println("[Customer Thread] Customer received approval! Transaction completed.");
+        } catch (InterruptedException e) {
+            System.out.println("[Customer Thread] Interrupted while waiting!");
+        }
+    }
+
+    public void run() {
+        System.out.println("[Customer Thread] Customer logged in.");
+        waitForApproval();
+    }
+}
+
+class BankManager extends Thread {
+    BankCustomer customer;
+
+    BankManager(BankCustomer customer) {
+        this.customer = customer;
+    }
+
+    public void run() {
+        try {
+            Thread.sleep(2000); // Simulate delay
+        } catch (InterruptedException e) {}
+
+        synchronized (customer) {
+            System.out.println("[Manager Thread] Manager approved the transaction!");
+            customer.notify(); // Notifies waiting customer
+        }
+    }
+}
+
+public class BankingApp {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        BankCustomer customer = null;
+        BankManager manager = null;
+        int choice;
+
+        do {
+            System.out.println("\n====== BANK MENU ======");
+            System.out.println("1. Start Customer Thread (Login + Wait)");
+            System.out.println("2. Start Manager Thread (Approve)");
+            System.out.println("3. Exit");
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+
+            switch (choice) {
+                case 1:
+                    if (customer == null || !customer.isAlive()) {
+                        customer = new BankCustomer();
+                        customer.start(); // Start customer thread
+                    } else {
+                        System.out.println("[Main] Customer thread already running.");
+                    }
+                    break;
+
+                case 2:
+                    if (customer != null) {
+                        manager = new BankManager(customer);
+                        manager.start(); // Start manager thread
+                    } else {
+                        System.out.println("[Main] Start customer thread first!");
+                    }
+                    break;
+
+                case 3:
+                    System.out.println("Exiting application...");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice. Try again.");
+            }
+
+        } while (choice != 3);
+
+        sc.close();
+    }
+}
